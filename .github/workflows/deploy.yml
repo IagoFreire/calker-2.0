@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           source: "frontend/dist/"
-          target: "/var/www/app/calker-2.0/frontend/dist/"
+          target: "/var/www/app/calker-2.0/frontend"
 
       - name: ⚡ Atualizar e Buildar Backend via SSH
         uses: appleboy/ssh-action@v1.0.3
