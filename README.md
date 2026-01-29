@@ -103,15 +103,6 @@ JWT_SECRET=uma_chave_secreta_aleatoria_aqui
 - `SUPABASE_SERVICE_ROLE_KEY`: Use a chave "service_role" do Supabase (encontrada em Settings > API)
 - A service_role key é necessária para operações administrativas
 
-#### Frontend (`frontend/.env`)
-
-Crie o arquivo `frontend/.env`:
-
-```env
-VITE_SUPABASE_URL=https://seu-projeto.supabase.co
-VITE_SUPABASE_KEY=sua_anon_key_aqui
-```
-
 ### 6. Criar Usuário Super Admin
 
 Após executar as migrações, crie seu primeiro usuário:

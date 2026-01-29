@@ -109,15 +109,6 @@ SUPABASE_DB_URL=postgresql://postgres.yxhpyxhbcsivuocnqocl:448810Pllp123@@aws-1-
 JWT_SECRET=uma_chave_secreta_aleatoria_aqui
 ```
 
-#### Frontend (`frontend/.env`)
-
-Crie o arquivo `frontend/.env` com:
-
-```env
-VITE_SUPABASE_URL=https://seu-projeto.supabase.co
-VITE_SUPABASE_KEY=sua_anon_key_aqui
-```
-
 ### 7. Executar o Projeto
 
 ```bash
