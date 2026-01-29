@@ -102,9 +102,6 @@ Crie o arquivo `backend/.env` com:
 
 ```env
 PORT=5000
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua_anon_key_aqui
-SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_aqui
 SUPABASE_DB_URL=postgresql://postgres.yxhpyxhbcsivuocnqocl:448810Pllp123@@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
 JWT_SECRET=uma_chave_secreta_aleatoria_aqui
 ```

@@ -91,17 +91,13 @@ Crie o arquivo `backend/.env`:
 
 ```env
 PORT=5000
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua_anon_key_aqui
-SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_aqui
 SUPABASE_DB_URL=postgresql://postgres.xxx:senha@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
 JWT_SECRET=uma_chave_secreta_aleatoria_aqui
 ```
 
 **Importante**: 
-- `SUPABASE_KEY`: Use a chave "anon" ou "public" do Supabase
-- `SUPABASE_SERVICE_ROLE_KEY`: Use a chave "service_role" do Supabase (encontrada em Settings > API)
-- A service_role key é necessária para operações administrativas
+- `SUPABASE_DB_URL`: URL de conexão direta com o banco de dados PostgreSQL do Supabase
+- Você pode encontrar essa URL em Settings > Database > Connection string (URI format) no Supabase
 
 ### 6. Criar Usuário Super Admin
 
