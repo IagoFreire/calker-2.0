@@ -10,7 +10,7 @@ import { pool } from './config/database';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 // Configuração do CORS
 const corsOptions = {
@@ -26,6 +26,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Middleware de logging para debug
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/stores', storeRoutes);
@@ -36,6 +42,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Calker API está funcionando' });
 });
 
+// Middleware de tratamento de erros global
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Erro não tratado:', err);
+  res.status(500).json({ 
+    error: 'Erro interno do servidor',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
 // Testar conexão com o banco antes de iniciar o servidor
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
@@ -44,8 +59,10 @@ pool.query('SELECT NOW()', (err, res) => {
   } else {
     console.log('✅ Conectado ao PostgreSQL:', res.rows[0].now);
     
-    app.listen(PORT, () => {
+    // Escutar em 0.0.0.0 para aceitar conexões de qualquer interface
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Servidor rodando na porta ${PORT}`);
+      console.log(`📍 Acessível em http://0.0.0.0:${PORT} e http://localhost:${PORT}`);
     });
   }
 });
