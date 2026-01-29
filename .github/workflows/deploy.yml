@@ -1,4 +1,4 @@
-name: 🚀 Deploy Calker
+name: 🚀 Deploy calker-2.0
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           source: "frontend/dist/"
-          target: "/var/www/app/calker/frontend/dist/"
+          target: "/var/www/app/calker-2.0/frontend/dist/"
 
       - name: ⚡ Atualizar e Buildar Backend via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
             # Entrar na pasta do projeto
-            cd /var/www/app/calker
+            cd /var/www/app/calker-2.0
             
             echo "📥 Puxando código novo do Git..."
             git pull origin ${{ github.ref_name }}
