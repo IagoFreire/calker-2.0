@@ -2,7 +2,7 @@ name: 🚀 Deploy Calker
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   deploy:
@@ -50,7 +50,7 @@ jobs:
             cd /var/www/app/calker
             
             echo "📥 Puxando código novo do Git..."
-            git pull origin main
+            git pull origin ${{ github.ref_name }}
 
             echo "⚙️ Configurando Backend..."
             cd backend
