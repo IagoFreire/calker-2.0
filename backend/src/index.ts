@@ -10,27 +10,62 @@ import { pool } from './config/database';
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 5000;
+const PORT = process.env.PORT || 5000;
 
 // Configuração do CORS
-const corsOptions = {
-  origin: [
-    'https://calker.iagofreire.dev',
-    'http://localhost:3000',
-    'http://localhost:5173', // Vite dev server padrão
-  ],
+const allowedOrigins = [
+  'https://calker.iagofreire.dev',
+  'http://calker.iagofreire.dev',
+  'http://localhost:3000',
+  'http://localhost:5173', // Vite dev server padrão
+  process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Permitir requisições sem origin (mobile apps, Postman, etc)
+    if (!origin) {
+      console.log('🌐 Requisição sem origin (mobile/app) - permitindo');
+      return callback(null, true);
+    }
+    
+    // Log para debug
+    console.log(`🌐 Origin recebido: ${origin}`);
+    
+    // Verificar se o origin está na lista
+    if (allowedOrigins.includes(origin)) {
+      console.log(`✅ Origin permitido: ${origin}`);
+      callback(null, true);
+    } else {
+      // Verificar se é um subdomínio ou variação do domínio permitido
+      const isAllowedDomain = allowedOrigins.some(allowed => {
+        try {
+          const allowedUrl = new URL(allowed);
+          const originUrl = new URL(origin);
+          // Permitir mesmo domínio (com ou sem www, http ou https)
+          return allowedUrl.hostname.replace(/^www\./, '') === originUrl.hostname.replace(/^www\./, '');
+        } catch {
+          return false;
+        }
+      });
+      
+      if (isAllowedDomain) {
+        console.log(`✅ Origin permitido (domínio correspondente): ${origin}`);
+        callback(null, true);
+      } else {
+        console.warn(`⚠️ Origin bloqueado: ${origin}`);
+        console.log(`📋 Origins permitidos: ${allowedOrigins.join(', ')}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
   optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+}));
 app.use(express.json());
-
-// Middleware de logging para debug
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-  next();
-});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -42,15 +77,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Calker API está funcionando' });
 });
 
-// Middleware de tratamento de erros global
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('Erro não tratado:', err);
-  res.status(500).json({ 
-    error: 'Erro interno do servidor',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined
-  });
-});
-
 // Testar conexão com o banco antes de iniciar o servidor
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
@@ -59,10 +85,8 @@ pool.query('SELECT NOW()', (err, res) => {
   } else {
     console.log('✅ Conectado ao PostgreSQL:', res.rows[0].now);
     
-    // Escutar em 0.0.0.0 para aceitar conexões de qualquer interface
-    app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT, () => {
       console.log(`🚀 Servidor rodando na porta ${PORT}`);
-      console.log(`📍 Acessível em http://0.0.0.0:${PORT} e http://localhost:${PORT}`);
     });
   }
 });
