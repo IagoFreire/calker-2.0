@@ -372,7 +372,17 @@ const Configuracoes = () => {
       {stores.length === 0 && !loading ? (
         <Empty description="Nenhuma loja encontrada" />
       ) : (
-        <StyledCollapse>
+        <StyledCollapse
+          onChange={(keys: string | string[]) => {
+            const activeKeys = Array.isArray(keys) ? keys : [keys];
+            activeKeys.forEach((key) => {
+              const store = stores.find((s) => s.id === key);
+              if (store && !users[store.id]) {
+                loadUsersForStore(store.id);
+              }
+            });
+          }}
+        >
           {stores.map((store) => (
             <Panel
               key={store.id}
@@ -415,11 +425,6 @@ const Configuracoes = () => {
                   )}
                 </StoreHeader>
               }
-              onChange={(key) => {
-                if (key && !users[store.id]) {
-                  loadUsersForStore(store.id);
-                }
-              }}
             >
               <div style={{ marginBottom: 16 }}>
                 <Button

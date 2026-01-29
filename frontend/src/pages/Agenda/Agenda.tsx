@@ -13,7 +13,7 @@ dayjs.extend(customParseFormat);
 import { PageTitle, PageSubtitle } from '../../components/common/PageHeader';
 import { Button as StyledButton } from '../../components/common/Button';
 import { FormInput, FormTextArea, FormSelect, FormDatePicker, FormSelectOption } from '../../components/common/FormInput';
-import { appointmentsService, Appointment, CreateAppointmentDto, UpdateAppointmentDto } from '../../services/appointments';
+import { appointmentsService, Appointment } from '../../services/appointments';
 import {
   AgendaContainer,
   AgendaHeader,
@@ -23,7 +23,6 @@ import {
   EventTitle,
   EventTime,
   EventClient,
-  StyledModal,
 } from './Agenda.styled';
 
 // Configurar moment para português brasileiro ANTES de criar o localizer
@@ -57,7 +56,7 @@ const formatMonthHeader = (date: Date): string => {
 
 // Componente customizado de Toolbar para garantir que o cabeçalho do mês seja renderizado em português
 const CustomToolbar = (props: any) => {
-  const { label, onNavigate, onView, view, date, localizer } = props;
+  const { label, onNavigate, onView, view, date } = props;
   
   // Formatar o label usando moment com locale pt-br
   const formatLabel = () => {
@@ -171,7 +170,6 @@ interface CalendarEvent {
 const Agenda = () => {
   const { message } = App.useApp();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Appointment | null>(null);
   const [form] = Form.useForm();

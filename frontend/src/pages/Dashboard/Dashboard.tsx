@@ -1,4 +1,4 @@
-import { Row, Col, Statistic, Table, Tag } from 'antd';
+import { Row, Col, Table, Tag } from 'antd';
 import {
   CalendarOutlined,
   UserOutlined,
@@ -14,7 +14,6 @@ import {
   DashboardContainer,
   StatCard,
   StatIcon,
-  StatTitleStyled,
   ChartCard,
   ChartTitle,
   TableCard,
@@ -158,14 +157,6 @@ const Dashboard = () => {
     { type: 'Agendados', value: 45 },
     { type: 'Cancelados', value: 8 },
   ];
-
-  // Mapeamento para legenda
-  const statusMap: { [key: string]: string } = {
-    'Concluídos': 'Concluídos',
-    'Em Andamento': 'Em Andamento',
-    'Agendados': 'Agendados',
-    'Cancelados': 'Cancelados',
-  };
 
   const pieConfig: any = {
     data: statusData,

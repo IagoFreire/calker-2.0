@@ -95,7 +95,6 @@ function App() {
               controlHeight: 48,
               borderRadius: 8,
               colorBorder: '#e5f4f8',
-              colorBorderHover: '#0088a3',
               colorPrimaryBorderHover: '#006994',
               activeBorderColor: '#006994',
             },
