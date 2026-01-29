@@ -511,6 +511,7 @@ export const LoginInput = styled(Input)`
   transition: ${({ theme }) => theme.transitions.default};
   display: flex;
   align-items: center;
+  overflow: hidden;
   
   .ant-input {
     height: 48px;
@@ -521,11 +522,25 @@ export const LoginInput = styled(Input)`
     line-height: 48px;
     display: flex;
     align-items: center;
+    background-color: transparent !important;
+    box-shadow: none !important;
     
     &::placeholder {
       line-height: normal;
       display: flex;
       align-items: center;
+    }
+    
+    /* Prevenir estilos de autocomplete do navegador */
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-text-fill-color: ${({ theme }) => theme.colors.text.primary} !important;
+      box-shadow: 0 0 0 30px white inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      border-radius: ${({ theme }) => theme.borderRadius.md};
     }
   }
   
@@ -555,6 +570,14 @@ export const LoginInput = styled(Input)`
       font-size: 16px;
       padding: 0 14px;
       line-height: 44px;
+      
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-shadow: 0 0 0 30px white inset !important;
+      }
     }
   }
 `;
@@ -566,6 +589,7 @@ export const LoginPasswordInput = styled(Password)`
   border: 2px solid ${inputBorderColor};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   transition: ${({ theme }) => theme.transitions.default};
+  overflow: hidden;
   
   .ant-input {
     height: 48px;
@@ -576,11 +600,25 @@ export const LoginPasswordInput = styled(Password)`
     line-height: 48px;
     display: flex;
     align-items: center;
+    background-color: transparent !important;
+    box-shadow: none !important;
     
     &::placeholder {
       line-height: normal;
       display: flex;
       align-items: center;
+    }
+    
+    /* Prevenir estilos de autocomplete do navegador */
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-text-fill-color: ${({ theme }) => theme.colors.text.primary} !important;
+      box-shadow: 0 0 0 30px white inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      border-radius: ${({ theme }) => theme.borderRadius.md};
     }
   }
   
@@ -625,6 +663,14 @@ export const LoginPasswordInput = styled(Password)`
       font-size: 16px;
       padding: 0 14px;
       line-height: 44px;
+      
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-shadow: 0 0 0 30px white inset !important;
+      }
     }
   }
 `;

@@ -3,6 +3,7 @@ import api from '../config/axios';
 
 interface User {
   id: string;
+  name?: string;
   email: string;
   role: string;
   store_id?: string;
@@ -16,6 +17,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,15 +44,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const refreshUser = async () => {
+    try {
+      const response = await api.get('/auth/me');
+      setUser(response.data.user);
+    } catch (error) {
+      console.error('Erro ao atualizar dados do usuário:', error);
+    }
+  };
+
   const login = async (email: string, password: string) => {
-    const response = await api.post('/auth/login', { email, password });
-    const { user: userData, token } = response.data;
-    
-    if (token) {
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      const { user: userData, token } = response.data;
+      
+      if (!token) {
+        throw new Error('Token de acesso não recebido');
+      }
+      
       localStorage.setItem('token', token);
       setUser(userData);
-    } else {
-      throw new Error('Token de acesso não recebido');
+    } catch (error: any) {
+      // Re-throw o erro para que o componente possa tratá-lo
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
     }
   };
 
@@ -66,7 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

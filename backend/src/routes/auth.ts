@@ -16,19 +16,27 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Email e senha são obrigatórios' });
     }
 
+    console.log('Tentativa de login para:', email);
+
     // Buscar usuário por email com senha
     const userData = await getUserByEmailWithPassword(email);
 
     if (!userData) {
+      console.log('Usuário não encontrado ou sem senha:', email);
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
+
+    console.log('Usuário encontrado:', userData.email, 'Role:', userData.role);
 
     // Verificar senha
     const isPasswordValid = await comparePassword(password, userData.password_hash);
     
     if (!isPasswordValid) {
+      console.log('Senha inválida para:', email);
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
+
+    console.log('Login bem-sucedido para:', email);
 
     // Buscar nome da loja se houver
     let storeName = null;
@@ -51,6 +59,7 @@ router.post('/login', async (req: Request, res: Response) => {
     res.json({
       user: {
         id: userData.id,
+        name: userData.name,
         email: userData.email,
         role: userData.role,
         store_id: userData.store_id,
@@ -58,9 +67,9 @@ router.post('/login', async (req: Request, res: Response) => {
       },
       token,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro ao fazer login:', error);
-    res.status(500).json({ error: 'Erro ao fazer login' });
+    res.status(500).json({ error: 'Erro ao fazer login: ' + (error.message || 'Erro desconhecido') });
   }
 });
 

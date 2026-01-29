@@ -43,7 +43,9 @@ const Login = () => {
       message.success('Login realizado com sucesso!');
       navigate('/');
     } catch (error: any) {
-      message.error(error.response?.data?.error || 'Erro ao fazer login');
+      const errorMessage = error.message || error.response?.data?.error || 'Erro ao fazer login';
+      message.error(errorMessage);
+      console.error('Erro no login:', error);
     } finally {
       setLoading(false);
     }
@@ -96,6 +98,9 @@ const Login = () => {
               <Form
                 name="login"
                 onFinish={onFinish}
+                onFinishFailed={(errorInfo) => {
+                  console.log('Form validation failed:', errorInfo);
+                }}
                 autoComplete="off"
                 layout="vertical"
                 size="large"

@@ -5,11 +5,14 @@ import {
   HomeOutlined,
   DashboardOutlined,
   CalendarOutlined,
+  SettingOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
   UserOutlined,
   LeftOutlined,
+  EditOutlined,
+  DownOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -67,6 +70,11 @@ const Layout = () => {
       icon: <CalendarOutlined />,
       label: 'Agenda',
     },
+    {
+      key: '/configuracoes',
+      icon: <SettingOutlined />,
+      label: 'Configurações',
+    },
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
@@ -81,18 +89,36 @@ const Layout = () => {
     navigate('/login');
   };
 
+  const handleEditProfile = () => {
+    navigate('/configuracoes?editProfile=true');
+  };
+
   const userMenuItems = [
     {
       key: 'user-info',
       label: (
         <div style={{ padding: '8px 0' }}>
-          <div style={{ fontWeight: 'bold' }}>{user?.email}</div>
-          <div style={{ fontSize: '12px', color: '#888' }}>
+          <div style={{ fontWeight: 'bold' }}>{user?.name || user?.email}</div>
+          {user?.name && user?.name !== user?.email && (
+            <div style={{ fontSize: '12px', color: '#888' }}>
+              {user?.email}
+            </div>
+          )}
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
             {user?.role === 'super_admin' ? 'Super Admin' : 
              user?.role === 'store_admin' ? 'Admin da Loja' : 'Usuário'}
           </div>
         </div>
       ),
+    },
+    {
+      type: 'divider' as const,
+    },
+    {
+      key: 'edit-profile',
+      icon: <EditOutlined />,
+      label: 'Editar Perfil',
+      onClick: handleEditProfile,
     },
     {
       type: 'divider' as const,
@@ -173,10 +199,24 @@ const Layout = () => {
             icon={isMobile ? <MenuUnfoldOutlined /> : (collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />)}
             onClick={() => isMobile ? setMobileMenuOpen(true) : setCollapsed(!collapsed)}
           />
-          <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+          <Dropdown 
+            menu={{ items: userMenuItems }} 
+            placement="bottomRight"
+            overlayStyle={{ minWidth: '240px' }}
+            trigger={['click']}
+          >
             <UserMenuContainer>
               <Avatar icon={<UserOutlined />} />
-              {(!collapsed || isMobile) && <UserEmail>{user?.email}</UserEmail>}
+              {(!collapsed || isMobile) && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0px', lineHeight: '1.3', flex: 1 }}>
+                  <UserEmail style={{ marginBottom: '2px' }}>{user?.name || user?.email}</UserEmail>
+                  <span style={{ fontSize: '11px', color: '#888', lineHeight: '1.2' }}>
+                    {user?.role === 'super_admin' ? 'Super Admin' : 
+                     user?.role === 'store_admin' ? 'Admin da Loja' : 'Usuário'}
+                  </span>
+                </div>
+              )}
+              <DownOutlined style={{ fontSize: '12px', color: '#888', marginLeft: 'auto' }} />
             </UserMenuContainer>
           </Dropdown>
         </AppHeader>

@@ -45,6 +45,26 @@ body {
   scrollbar-color: #006994 #f0f0f0;
 }
 
+/* Prevenir overflow do autocomplete do navegador */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #003d52 !important;
+  transition: background-color 5000s ease-in-out 0s;
+  border-radius: 12px !important;
+}
+
 /* Estilos globais para as opções do Select do Ant Design */
 .ant-select-dropdown {
   .ant-select-item {

@@ -7,6 +7,7 @@ import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Agenda from './pages/Agenda';
+import Configuracoes from './pages/Configuracoes';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { theme as styledTheme } from './styles/theme';
 
@@ -55,6 +56,7 @@ function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="agenda" element={<Agenda />} />
+        <Route path="configuracoes" element={<Configuracoes />} />
       </Route>
     </Routes>
   );

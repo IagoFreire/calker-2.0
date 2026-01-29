@@ -288,9 +288,10 @@ export const UserMenuContainer = styled.div`
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: ${({ theme }) => theme?.borderRadius?.sm || defaultTheme.borderRadius.sm};
   transition: ${({ theme }) => theme?.transitions?.default || defaultTheme.transitions.default};
+  min-width: 240px;
   
   &:hover {
     background: ${({ theme }) => theme?.colors?.neutrals?.bgSoft || defaultTheme.colors.neutrals.bgSoft};
@@ -303,6 +304,7 @@ export const UserMenuContainer = styled.div`
   
   @media (max-width: 768px) {
     padding: 4px 8px !important;
+    min-width: auto;
     
     .ant-avatar {
       width: 32px !important;
