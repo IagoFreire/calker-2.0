@@ -102,7 +102,7 @@ Crie o arquivo `backend/.env` com:
 
 ```env
 PORT=5000
-SUPABASE_DB_URL=postgresql://postgres.yxhpyxhbcsivuocnqocl:448810Pllp123@@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
+SUPABASE_DB_URL=url_aqui
 JWT_SECRET=uma_chave_secreta_aleatoria_aqui
 ```
 
