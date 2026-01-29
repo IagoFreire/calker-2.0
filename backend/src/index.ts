@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     'https://calker.iagofreire.dev',
+    'http://calker.iagofreire.dev',
     'http://localhost:3000',
     'http://localhost:5173', // Vite dev server padrão
   ],
