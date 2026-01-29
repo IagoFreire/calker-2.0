@@ -182,14 +182,11 @@ const Agenda = () => {
 
   const loadAppointments = async () => {
     try {
-      setLoading(true);
       const data = await appointmentsService.getAll();
       setAppointments(data);
     } catch (error: any) {
       message.error('Erro ao carregar agendamentos');
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
