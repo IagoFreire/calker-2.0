@@ -12,7 +12,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Configuração do CORS
+const corsOptions = {
+  origin: [
+    'https://calker.iagofreire.dev',
+    'http://localhost:3000',
+    'http://localhost:5173', // Vite dev server padrão
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes

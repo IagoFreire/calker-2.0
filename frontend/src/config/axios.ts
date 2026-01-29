@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Usa VITE_API_URL se disponível (produção), senão usa '/api' (desenvolvimento com proxy ou nginx)
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
